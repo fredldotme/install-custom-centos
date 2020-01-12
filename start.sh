@@ -1,1 +1,1 @@
-bash install.sh | tee install.log
+bash install.sh |& tee install.log
