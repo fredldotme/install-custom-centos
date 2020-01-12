@@ -36,7 +36,7 @@ mount -t efivarfs efivarfs /target/sys/firmware/efi/efivars/
 cp install-chroot.sh /target/install.sh
 
 # Enter chroot
-chroot /target /bin/bash -c "bash /install.sh && rm /install.sh"
+chroot /target /bin/bash -c "bash /install.sh && bash && rm /install.sh"
 
 # Unmount
  mount | grep target | awk '{ print $3 }' | xargs umount -lf
