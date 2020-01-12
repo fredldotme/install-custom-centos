@@ -1,0 +1,1 @@
+bash install.sh | tee install.log
