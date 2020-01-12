@@ -1,6 +1,8 @@
 export DRIVE=/dev/sda
 
-$ Partition the disk
+# TODO! parted sets filesystem type as "Microsoft basic"!
+
+# Partition the disk
 parted --script $DRIVE \
 	mklabel gpt \
 	mkpart primary 1MiB 513MiB \
