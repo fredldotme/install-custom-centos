@@ -3,21 +3,15 @@ yum install -y hostname
 yum --releasever=8 install -y yum centos-release
 yum install -y redhat-lsb-core dracut-tools dracut-squash dracut-network dracut-config-rescue dracut-config-generic # is dracut-squash, dracut-network, and dracut-config-generic necessary?
 
-# Bootloader
+# Install GRUB
 
-# How To Boot For now
-# https://www.linux.com/tutorials/how-rescue-non-booting-grub-2-linux/
-
-# TODO!
-# https://www.dedoimedo.com/computers/grub2-fedora-command-not-found.html
-# Install grub2-efi-modules
-
-yum install -y grub2 grub2-efi efibootmgr
+yum install -y grub2 grub2-efi-x64 shim efibootmgr 
 
 # Install kernel 
 # For some reason this needs to be installed after grub
 yum install -y kernel
 
+# Configure GRUB
 cat > /etc/default/grub << EOF
 GRUB_TIMEOUT=5
 GRUB_DISTRIBUTOR="$(sed 's, release .*$,,g' /etc/system-release)"
@@ -28,7 +22,7 @@ GRUB_CMDLINE_LINUX="crashkernel=auto rd.auto consoleblank=0"
 GRUB_DISABLE_RECOVERY="true"
 EOF
 
-efibootmgr -c -p 1 -d $DRIVE -L "Custom CentOS" -l "\EFI\centos\grubx64.efi"
+efibootmgr -c -p 1 -d $DRIVE -L "Custom CentOS" -l "\EFI\centos\shimx64.efi"
 grub2-mkconfig -o /boot/efi/EFI/centos/grub.cfg
 
 # Networking
