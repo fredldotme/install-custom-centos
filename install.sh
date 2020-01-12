@@ -35,9 +35,8 @@ mount -t proc procfs /target/proc/
 mount -t sysfs sysfs /target/sys/
 mount -t efivarfs efivarfs /target/sys/firmware/efi/efivars/
 
-cp install-chroot.sh /target/install.sh
-
 # Enter chroot
+cp install-chroot.sh /target/install.sh
 chroot /target /bin/bash -c "bash /install.sh && bash && rm /install.sh"
 
 # Configure each network device
@@ -67,4 +66,4 @@ export -f init_ifcfg
 cut -d: -f1 <(nmcli -t device) | xargs -n1 bash -c 'init_ifcfg "$@"' _
 
 # Unmount
- mount | grep target | awk '{ print $3 }' | xargs umount -lf
+mount | grep target | awk '{ print $3 }' | xargs umount -lf

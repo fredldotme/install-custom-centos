@@ -4,7 +4,6 @@ yum --releasever=8 install -y yum centos-release
 yum install -y redhat-lsb-core dracut-tools dracut-squash dracut-network dracut-config-rescue dracut-config-generic # is dracut-squash, dracut-network, and dracut-config-generic necessary?
 
 # Install GRUB
-
 yum install -y grub2 grub2-efi-x64 shim efibootmgr 
 
 # Install kernel 
@@ -22,7 +21,7 @@ GRUB_CMDLINE_LINUX="crashkernel=auto rd.auto consoleblank=0"
 GRUB_DISABLE_RECOVERY="true"
 EOF
 
-efibootmgr -c -p 1 -d $DRIVE -L "Custom CentOS" -l "\EFI\centos\shimx64.efi"
+efibootmgr -c -p 1 -d $DRIVE -L "Minimal CentOS 8" -l "\EFI\centos\shimx64.efi"
 grub2-mkconfig -o /boot/efi/EFI/centos/grub.cfg
 
 # Networking
@@ -46,7 +45,7 @@ ROOT_UUID=$(blkid | grep "${DRIVE}3" | sed 's/^.*UUID="\(.*\)" T.*$/\1/')
 cat > /etc/fstab << EOF
 UUID=$EFI_UUID	/boot/efi	vfat	defaults	0	0
 UUID=$BOOT_UUID	/boot		ext4	defaults	0	0
-UUID=$ROOT_UUID	/		ext4	defaults	0	0
+UUID=$ROOT_UUID	/           ext4	defaults	0	0
 EOF
 
 # Root password
