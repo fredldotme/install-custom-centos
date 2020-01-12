@@ -33,8 +33,10 @@ mount -t proc procfs /target/proc/
 mount -t sysfs sysfs /target/sys/
 mount -t efivarfs efivarfs /target/sys/firmware/efi/efivars/
 
+cp install-chroot.sh /target/install.sh
+
 # Enter chroot
-chroot /target
+chroot /target /bin/bash -c "bash /install.sh && rm /install.sh"
 
 # Unmount
  mount | grep target | awk '{ print $3 }' | xargs umount -lf
