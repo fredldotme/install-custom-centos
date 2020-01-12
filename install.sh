@@ -38,5 +38,31 @@ cp install-chroot.sh /target/install.sh
 # Enter chroot
 chroot /target /bin/bash -c "bash /install.sh && bash && rm /install.sh"
 
+# Configure each network device
+mkdir -p /target/etc/sysconfig/network-scripts/
+
+init_ifcfg() {
+	if [ "$1" != "lo" ]; then
+		cat > "/target/etc/sysconfig/network-scripts/ifcfg-${1}" << EOF
+TYPE=Ethernet
+BOOTPROTO=dhcp
+PROXY_METHOD=none
+BROWSER_ONLY=no
+DEFROUTE=yes
+IPV4_FAILURE_FATAL=no
+IPV6INIT=no
+IPV6_AUTOCONF=yes
+IPV6_DEFROUTE=yes
+IPV6_FAILURE_FATAL=no
+NAME=$1
+DEVICE=$1
+ONBOOT=yes
+EOF
+	fi
+}
+
+export -f init_ifcfg
+cut -d: -f1 <(nmcli -t device) | xargs -n1 bash -c 'init_ifcfg "$@"' _
+
 # Unmount
  mount | grep target | awk '{ print $3 }' | xargs umount -lf

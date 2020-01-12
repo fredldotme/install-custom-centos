@@ -31,41 +31,13 @@ EOF
 efibootmgr -c -p 1 -d $DRIVE -L "Custom CentOS" -l "\EFI\centos\grubx64.efi"
 grub2-mkconfig -o /boot/efi/EFI/centos/grub.cfg
 
-## Network
 
-yum install -y nmcli
-
-# Enable networking
+# Networking
+yum install -y NetworkManager
 cat > "/etc/sysconfig/network" << EOF
 NETWORKING=yes
 NETWORKING_IPV6=no
 EOF
-
-# Configure each network device
-mkdir -p /etc/sysconfig/network-scripts/
-
-init_ifcfg() {
-	if [ "$1" != "lo" ]; then
-		cat > "/etc/sysconfig/network-scripts/ifcfg-${1}" << EOF
-TYPE=Ethernet
-BOOTPROTO=dhcp
-PROXY_METHOD=none
-BROWSER_ONLY=no
-DEFROUTE=yes
-IPV4_FAILURE_FATAL=no
-IPV6INIT=no
-IPV6_AUTOCONF=yes
-IPV6_DEFROUTE=yes
-IPV6_FAILURE_FATAL=no
-NAME=$1
-DEVICE=$1
-ONBOOT=yes
-EOF
-	fi
-}
-
-export -f init_ifcfg
-cut -d: -f1 <(nmcli -t device) | xargs -n1 bash -c 'init_ifcfg "$@"' _
 
 # Journald
 
