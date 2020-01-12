@@ -2,6 +2,14 @@
 yum install -y hostname
 yum --releasever=8 install -y yum centos-release
 yum install -y redhat-lsb-core dracut-tools dracut-squash dracut-network dracut-config-rescue dracut-config-generic # is dracut-squash, dracut-network, and dracut-config-generic necessary?
+yum install -y coreutils --allowerasing
+
+# Locale
+cat >> /etc/profile.d/lang.sh << EOF
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8
+export LC_COLLATE=C
+EOF
 
 # Install GRUB
 yum install -y grub2 grub2-efi-x64 shim efibootmgr 
@@ -25,6 +33,7 @@ efibootmgr -c -p 1 -d $DRIVE -L "Minimal CentOS 8" -l "\EFI\centos\shimx64.efi"
 grub2-mkconfig -o /boot/efi/EFI/centos/grub.cfg
 
 # Networking
+cat $HOSTNAME > /etc/hostname
 yum install -y NetworkManager
 cat > "/etc/sysconfig/network" << EOF
 NETWORKING=yes
@@ -55,8 +64,11 @@ passwd
 rm /etc/localtime
 ln -s /usr/share/zoneinfo/US/Eastern localtime
 
+#Localization
+
+
 # Install custom packages
-yum install -y vim tmux openssh
+yum install -y vim tmux openssh wget
 
 # Leave chroot
 echo "Installtion complete."

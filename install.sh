@@ -1,4 +1,5 @@
 export DRIVE=/dev/sda
+export HOSTNAME=custom-centos8
 
 # TODO! parted sets filesystem type as "Microsoft basic"!
 
@@ -45,19 +46,20 @@ mkdir -p /target/etc/sysconfig/network-scripts/
 init_ifcfg() {
 	if [ "$1" != "lo" ]; then
 		cat > "/target/etc/sysconfig/network-scripts/ifcfg-${1}" << EOF
-TYPE=Ethernet
-BOOTPROTO=dhcp
-PROXY_METHOD=none
-BROWSER_ONLY=no
-DEFROUTE=yes
-IPV4_FAILURE_FATAL=no
-IPV6INIT=no
-IPV6_AUTOCONF=yes
-IPV6_DEFROUTE=yes
-IPV6_FAILURE_FATAL=no
 NAME=$1
 DEVICE=$1
 ONBOOT=yes
+DEFROUTE=yes
+TYPE=Ethernet
+BOOTPROTO=dhcp
+BROWSER_ONLY=no
+PROXY_METHOD=none
+IPV4_FAILURE_FATAL=no
+DHCP_SEND_HOSTNAME=yes
+IPV6INIT=no
+IPV6_DEFROUTE=yes
+IPV6_AUTOCONF=yes
+IPV6_FAILURE_FATAL=no
 EOF
 	fi
 }
