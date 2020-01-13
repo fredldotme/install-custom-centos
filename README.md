@@ -2,7 +2,7 @@
 
 These scripts create a minimal install of CentOS 8 (even more so than the standard minimal installation) via a chroot-style installation similar to `debbootstrap` or `pacstrap`.
 
-These scripts were designed to be ran under the CentOS 7 LiveCD (CentOS 8 does not seem to provide a LiveCD). Installtion is simple, and does not provide many options. The final installtion includes no desktop environment, or many other features at all, but it does function.
+These scripts were designed to be run under the CentOS 7 LiveCD (CentOS 8 does not seem to provide a LiveCD). Installation is simple, and does not provide many options. The final installtion includes no desktop environment, or many other features at all, but it does function.
 
 The script assumes the machine is 64-bit and supports EFI.
 
