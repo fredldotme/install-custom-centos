@@ -25,7 +25,7 @@ The installation drive is formatted and can be configured by setting the `DRIVE`
 5. `cd` into the installation directory: `cd install-custom-centos`
 6. Run the start script: `chmod +x start.sh && ./start.sh`
 
-The installation will proceed without any user interaction until the end where it will ask you to set a root password. Afterwards, a bash shell is opened in the `chroot` where any final configuration can be performed before the installation is finished.
+The installation will proceed without any user interaction until the end where it will ask you to set a root password. Afterwards, a bash shell is opened in the `chroot` where any final configuration can be performed before the installation is finished. A log of the installation is saved as `install.log`. 
 
 ## Post-Installtion
 
