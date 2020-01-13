@@ -41,7 +41,7 @@ NETWORKING_IPV6=no
 EOF
 
 # Journald
-
+# ... ?
 
 # Something something autorelabel
 touch /.autorelabel
@@ -63,9 +63,6 @@ passwd
 # Time
 rm /etc/localtime
 ln -s /usr/share/zoneinfo/US/Eastern localtime
-
-#Localization
-
 
 # Install custom packages
 yum install -y vim tmux openssh wget
